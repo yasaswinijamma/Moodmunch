@@ -1,0 +1,6 @@
+<h2>Browse by Mood</h2>
+<div>
+    <div class="card" *ngFor="let mood of moods">
+        <a [routerLink]="['/recipe-list', mood]">{{ mood }}</a>
+    </div>
+</div>

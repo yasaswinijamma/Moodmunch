@@ -1,0 +1,48 @@
+<!-- frontend/src/app/meal-planner/meal-planner.component.html -->
+<h2>Customize Your Weekly Meal Plan</h2>
+
+<!-- Preferences Form -->
+<div class="preferences-form">
+  <label>Cuisine:
+    <select [(ngModel)]="preferences.cuisine">
+      <option value="">Any</option>
+      <option value="Italian">Italian</option>
+      <option value="Mexican">Mexican</option>
+      <option value="Asian">Asian</option>
+    </select>
+  </label>
+  <label>Dietary:
+    <select [(ngModel)]="preferences.dietary">
+      <option value="">None</option>
+      <option value="vegetarian">Vegetarian</option>
+      <option value="glutenFree">Gluten-Free</option>
+    </select>
+  </label>
+  <label>Meals per Day:
+    <input type="number" [(ngModel)]="preferences.mealsPerDay" min="1" max="3">
+  </label>
+  <label>Calories per Meal:
+    <input type="number" [(ngModel)]="preferences.caloriesPerMeal" min="300" max="1000" placeholder="600">
+  </label>
+  <button (click)="generateMealPlan()">Generate Plan</button>
+</div>
+
+<!-- Meal Plan Display -->
+<div *ngIf="mealPlan; else loading" class="meal-plan-container">
+  <div *ngFor="let day of days" class="day-section">
+    <h3>{{ day | titlecase }}</h3>
+    <ul>
+      <li *ngFor="let meal of mealPlan[day]" class="meal-item">
+        <a [routerLink]="['/recipe-detail', meal.recipeId]" (click)="debugRedirect(meal.recipeId)" class="meal-link">
+          <img [src]="meal.image" alt="{{ meal.title }}" (error)="handleImageError($event)" class="meal-image">
+          <div class="meal-details">
+            <span class="meal-title">{{ meal.title }}</span>
+            <span class="meal-time">({{ meal.readyInMinutes }} mins)</span>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <button (click)="saveMealPlan()">Save Plan</button>
+</div>
+<ng-template #loading>Loading meal plan...</ng-template>

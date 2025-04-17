@@ -1,0 +1,47 @@
+<h2>Profile</h2>
+<div class="profile-container">
+  <h2>Your Foodie Profile</h2>
+
+  <!-- Error State -->
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <!-- Profile Card -->
+  <div *ngIf="profile" class="profile-card" [@fadeIn]>
+    <h3>Welcome, {{ profile.username || 'Foodie' }}!</h3>
+    <p><strong>Bio:</strong> {{ profile.bio || 'Just here to eat good food!' }}</p>
+    <p><strong>Favorite Cuisine:</strong> {{ profile.favoriteCuisine || 'Exploring all flavors' }}</p>
+  </div>
+
+  <!-- Stats Grid -->
+  <div *ngIf="profile" class="stats-grid" [@fadeIn]>
+    <div class="stat-box">
+      <span>{{ profile.favoriteCount || 0 }}</span>
+      <p>Favorites</p>
+    </div>
+    <div class="stat-box">
+      <span>{{ profile.mealPlanCount || 0 }}</span>
+      <p>Meals Planned</p>
+    </div>
+    <div class="stat-box">
+      <span>{{ profile.shoppingListCount || 0 }}</span>
+      <p>Items in List</p>
+    </div>
+  </div>
+
+  <!-- Taste Profile -->
+  <div *ngIf="profile" class="taste-profile" [@fadeIn]>
+    <h3>Your Taste Profile</h3>
+    <div class="flavor-list">
+      <span class="flavor-item" *ngFor="let flavor of profile.flavors || defaultFlavors">
+        {{ flavor }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Quick Links -->
+  <div *ngIf="profile" class="links" [@fadeIn]>
+    <a routerLink="/favorites" class="link-btn">View Favorites</a>
+    <a routerLink="/shopping-list" class="link-btn">Shopping List</a>
+    <a routerLink="/meal-planner" class="link-btn">Meal Planner</a>
+  </div>
+</div>

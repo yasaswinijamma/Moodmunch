@@ -1,0 +1,51 @@
+<h1>{{ welcomeMessage }}</h1>
+<div class="card-container">
+    <div class="card">
+        <h2>Login</h2>
+        <a [routerLink]="['/login']">Go to Login</a>
+    </div>
+    <div class="card">
+        <h2>Browse by Mood</h2>
+        <a [routerLink]="['/mood-picker']">Pick a Mood</a>
+    </div>
+    <div class="card">
+        <h2>Recipe List</h2>
+        <a [routerLink]="['/recipe-list', 'Happy']">See Happy Recipes</a>
+    </div>
+    <div class="card">
+        <h2>Recipe Details</h2>
+        <a [routerLink]="['/recipe-detail', 1]">View a Recipe</a>
+    </div>
+    <div class="card">
+        <h2>Meal Planner</h2>
+        <a [routerLink]="['/meal-planner']">Plan Your Meals</a>
+    </div>
+    <div class="card">
+        <h2>Shopping List</h2>
+        <a [routerLink]="['/shopping-list']">Get Ingredients</a>
+    </div>
+    <div class="card">
+        <h2>Local Flavors</h2>
+        <a [routerLink]="['/local-flavor-finder']">Find Local Eats</a>
+    </div>
+    <div class="card">
+        <h2>Profile</h2>
+        <a [routerLink]="['/profile']">View Profile</a>
+    </div>
+    <div class="card">
+        <h2>Favorites</h2>
+        <a [routerLink]="['/favorites']">See Favorites</a>
+    </div>
+    <div class="card">
+        <h2>Random Spin</h2>
+        <a [routerLink]="['/random-spin']">Spin for a Meal</a>
+    </div>
+    <div class="card">
+        <h2>Dashboard</h2>
+        <a [routerLink]="['/dashboard']">Admin Dashboard</a>
+    </div>
+    <div class="card">
+        <h2>Sign Out</h2>
+        <a (click)="authService.logout()">Sign Out</a>
+    </div>
+</div>

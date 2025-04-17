@@ -1,0 +1,24 @@
+<nav class="navbar">
+  <div class="nav-left">
+    <a routerLink="/home" class="brand">MoodMunch</a>
+    <input [(ngModel)]="searchQuery" (keyup.enter)="search()" placeholder="Search recipes..." class="search-input">
+    <button (click)="search()" class="search-btn">Search</button>
+    <a routerLink="/mood-picker">Browse by Mood</a>
+    <a routerLink="/recipe-list">Recipes</a>
+    <a routerLink="/random-spin">Random Spin</a>
+    <a routerLink="/local-flavor">Local Flavors</a>
+  </div>
+  <div class="nav-right">
+    <a *ngIf="authService.isLoggedIn()" routerLink="/profile">{{ authService.currentUser }}</a>
+    <a *ngIf="authService.isLoggedIn()" routerLink="/favorites">Favorites</a>
+    <a *ngIf="authService.isLoggedIn()" routerLink="/meal-planner">Meal Planner</a>
+    <a *ngIf="authService.isLoggedIn()" routerLink="/shopping-list">Shopping List</a>
+    <a *ngIf="authService.isLoggedIn() && authService.isAdmin()" routerLink="/dashboard">Dashboard</a>
+    <button *ngIf="authService.isLoggedIn()" (click)="authService.logout()" class="logout-btn">Sign Out</button>
+    <a *ngIf="!authService.isLoggedIn()" routerLink="/login">Sign In</a>
+    <a *ngIf="!authService.isLoggedIn()" routerLink="/register">Register</a>
+  </div>
+</nav>
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

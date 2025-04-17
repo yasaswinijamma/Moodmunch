@@ -1,0 +1,11 @@
+<h2>Random Meal Spin</h2>
+<div *ngIf="loading" class="loading">Spinning...</div>
+<div *ngIf="!loading && recipe" class="card">
+  <img [src]="recipe.image" alt="{{ recipe.name }}" style="max-width: 100%; height: auto;">
+  <strong>{{ recipe.name }}</strong>
+  <p>Mood: {{ recipe.mood }}</p>
+  <p>Prep Time: {{ recipe.prepTime }} min</p>
+  <p>Ingredients: {{ recipe.ingredients }}</p>
+  <p>Steps: {{ recipe.steps }}</p>
+  <button (click)="spin()">Spin Again</button>
+</div>

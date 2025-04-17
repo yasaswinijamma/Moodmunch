@@ -1,0 +1,10 @@
+<h2>{{ mood }} Recipes</h2>
+<div *ngIf="loading" class="loading">Loading...</div>
+<div *ngIf="!loading" class="card-container">
+  <div class="card" *ngFor="let recipe of recipes">
+    <img [src]="recipe.image" alt="{{ recipe.name }}" style="max-width: 100%; height: auto;">
+    <a [routerLink]="['/recipe-detail', recipe.id]">{{ recipe.name }}</a>
+    <p>{{ recipe.prepTime }} min</p>
+    <button>View Recipe</button>
+  </div>
+</div>

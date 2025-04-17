@@ -1,0 +1,16 @@
+<h2>{{ message }}</h2>
+<div>
+    <h3>Sample Recipes</h3>
+    <div class="card" *ngFor="let recipe of recipes">
+        {{ recipe.name }} ({{ recipe.mood }})
+    </div>
+</div>
+<h3>Add Recipe</h3>
+<form (ngSubmit)="addRecipe()" class="card">
+    <input [(ngModel)]="newRecipe.name" name="name" placeholder="Name" required>
+    <input [(ngModel)]="newRecipe.mood" name="mood" placeholder="Mood" required>
+    <input [(ngModel)]="newRecipe.prepTime" name="prepTime" type="number" placeholder="Prep Time (min)" required>
+    <input [(ngModel)]="newRecipe.ingredients" name="ingredients" placeholder="Ingredients" required>
+    <input [(ngModel)]="newRecipe.steps" name="steps" placeholder="Steps" required>
+    <button type="submit">Add to Recipes</button>
+</form>

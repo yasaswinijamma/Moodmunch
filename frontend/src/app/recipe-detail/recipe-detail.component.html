@@ -1,0 +1,12 @@
+<div *ngIf="loading" class="loading">Loading...</div>
+<div *ngIf="!loading && recipe" class="card">
+    <img [src]="recipe.image" alt="{{ recipe.name }}" style="max-width: 100%; height: auto;">
+    <h2>{{ recipe.name }}</h2>
+    <p>Mood: {{ recipe.mood }}</p>
+    <p>Prep Time: {{ recipe.prepTime }} min</p>
+    <p>Ingredients: {{ recipe.ingredients }}</p>
+    <p>Steps: {{ recipe.steps }}</p>
+    <button (click)="toggleFavorite()" [class.favorited]="isFavorite">
+        {{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
+    </button>
+</div>

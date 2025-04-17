@@ -1,0 +1,9 @@
+<h2>Your Favorites</h2>
+<div class="card-container">
+    <div class="card" *ngFor="let fav of favorites">
+        <img [src]="fav.image" alt="{{ fav.name }}" style="max-width: 100%; height: auto;">
+        <a [routerLink]="['/recipe-detail', fav.id]">{{ fav.name }}</a>
+        <button (click)="removeFavorite(fav.id)">Remove</button>
+    </div>
+    <div *ngIf="favorites.length === 0" class="no-favorites">No favorites yet! Add some from recipe details.</div>
+</div>
