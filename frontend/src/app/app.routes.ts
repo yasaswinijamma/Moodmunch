@@ -14,6 +14,8 @@ import { RandomMealSpinComponent } from './random-meal-spin/random-meal-spin.com
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {ContactComponent} from './contact/contact.component';
 import {PrivacyComponent} from './privacy/privacy.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { adminGuard } from './auth/admin.guard';
 
 
 export const routes: Routes = [
@@ -33,6 +35,7 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'privacy', component: PrivacyComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [adminGuard] },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' }
 

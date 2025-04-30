@@ -1,4 +1,3 @@
-// src/main/java/com/example/moodmunch/controller/UserController.java
 package com.example.moodmunch.controller;
 
 import com.example.moodmunch.model.Order;
@@ -10,10 +9,14 @@ import com.example.moodmunch.repository.MealPlanRepository;
 import com.example.moodmunch.repository.OrderRepository;
 import com.example.moodmunch.repository.ShoppingListRepository;
 import com.example.moodmunch.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,6 +29,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private ShoppingListRepository shoppingListRepository;
@@ -121,6 +126,37 @@ public class UserController {
         profile.put("shoppingListCount", shoppingListCount);
         profile.put("flavors", flavorsList);
         profile.put("orders", orders); // Add order history
+
+        return ResponseEntity.ok(profile);
+    }
+
+    @GetMapping("/users/profile")
+    public ResponseEntity<?> getUserProfile() {
+        logger.info("Received request to fetch user profile at /api/users/profile");
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (username == null || "anonymousUser".equals(username)) {
+            logger.error("User is not authenticated");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+        }
+
+        logger.info("Fetching profile for username: {}", username);
+
+        // Fetch user from the database
+        Optional<User> userOptional = userRepository.findById(username);
+        if (!userOptional.isPresent()) {
+            logger.error("User not found: {}", username);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + username);
+        }
+
+        User user = userOptional.get();
+        logger.info("User found: username={}, role={}, email={}", user.getUsername(), user.getRole(), user.getEmail());
+
+        // Prepare minimal profile data with role
+        Map<String, Object> profile = new HashMap<>();
+        profile.put("username", user.getUsername());
+        profile.put("role", user.getRole());
+        profile.put("email", user.getEmail());
 
         return ResponseEntity.ok(profile);
     }

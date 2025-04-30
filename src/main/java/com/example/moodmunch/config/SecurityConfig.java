@@ -1,4 +1,3 @@
-// src/main/java/com/example/moodmunch/config/SecurityConfig.java
 package com.example.moodmunch.config;
 
 import com.example.moodmunch.service.UserService;
@@ -13,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -42,10 +42,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        // Add /api/local-flavor to the list of permitted endpoints
-                        .requestMatchers("/api/register", "/api/login", "/api/home", "/api/recipes/**", "/api/random-spin", "/api/local-flavor").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/favorites", "/api/shopping-list", "/api/meal-planner", "/api/users/profile", "/api/check-session").authenticated()
+                        .requestMatchers("/api/register", "/api/login", "/api/home", "/api/recipes/**",
+                                "/api/random-spin", "/api/local-flavor").permitAll()
+                        .requestMatchers("/api/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/favorites", "/api/shopping-list", "/api/meal-planner",
+                                "/api/users/profile", "/api/check-session").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -74,7 +75,8 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/api/logout")
                         .logoutSuccessHandler((req, res, auth) -> {
-                            System.out.println("Logout successful for session: " + (req.getSession(false) != null ? req.getSession(false).getId() : "none"));
+                            String sessionId = req.getSession(false) != null ? req.getSession(false).getId() : "none";
+                            System.out.println("Logout successful for session: " + sessionId);
                             res.setStatus(HttpServletResponse.SC_OK);
                             res.setContentType("text/plain");
                             res.getWriter().write("Logout successful");
@@ -87,6 +89,7 @@ public class SecurityConfig {
                         .sessionFixation().migrateSession()
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                         .maximumSessions(1)
+                        .maxSessionsPreventsLogin(false)
                 )
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((req, res, authEx) -> {
@@ -104,10 +107,15 @@ public class SecurityConfig {
                     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
                             throws IOException, ServletException {
                         HttpServletRequest request = (HttpServletRequest) req;
+                        HttpServletResponse response = (HttpServletResponse) res;
+                        String sessionId = request.getSession(false) != null ? request.getSession(false).getId() : "none";
                         System.out.println("Incoming request: " + request.getRequestURI() +
-                                ", Session: " + (request.getSession(false) != null ? request.getSession(false).getId() : "none") +
+                                ", Session: " + sessionId +
                                 ", Cookies: " + request.getHeader("Cookie"));
+                        System.out.println("Response headers before: " + response.getHeaderNames());
                         chain.doFilter(req, res);
+                        System.out.println("Response headers after: " + response.getHeaderNames());
+                        System.out.println("Set-Cookie header: " + response.getHeader("Set-Cookie"));
                     }
                 }, UsernamePasswordAuthenticationFilter.class);
 
@@ -122,6 +130,7 @@ public class SecurityConfig {
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
         config.setExposedHeaders(List.of("Set-Cookie"));
+        config.setMaxAge(3600L); // Cache CORS preflight for 1 hour
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
@@ -134,10 +143,13 @@ public class SecurityConfig {
             if (user == null) {
                 throw new UsernameNotFoundException("User not found: " + username);
             }
+            String role = user.getRole() != null ? user.getRole().toUpperCase() : "USER";
+            // Ensure the role is prefixed with "ROLE_" for Spring Security
+            String authority = role.startsWith("ROLE_") ? role : "ROLE_" + role;
             return org.springframework.security.core.userdetails.User
                     .withUsername(user.getUsername())
                     .password(user.getPassword())
-                    .roles(user.getRole())
+                    .authorities(authority)
                     .build();
         };
     }
@@ -145,5 +157,10 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 }

@@ -21,13 +21,13 @@ import { AuthService } from './auth/auth.service';
           <a routerLink="/local-flavor">Local Flavors</a>
         </div>
         <div class="nav-right">
-          <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+          <ng-container *ngIf="authService.isLoggedIn() | async; else notLoggedIn">
             <a routerLink="/profile">Profile</a>
             <a routerLink="/favorites">Favorites</a>
             <a routerLink="/meal-planner">Meal Planner</a>
             <a routerLink="/shopping-list">Shopping List</a>
-            <a *ngIf="isAdmin" routerLink="/dashboard">Dashboard</a>
-            <span class="user-greeting">Hello, {{ currentUser }}</span>
+            <a *ngIf="authService.isAdmin() | async" routerLink="/admin-dashboard">Admin Dashboard</a>
+            <span class="user-greeting">Hello, {{ (authService.getCurrentUser() | async) || 'User' }}</span>
             <button (click)="logout()" class="logout-btn">Sign Out</button>
           </ng-container>
           <ng-template #notLoggedIn>
@@ -154,17 +154,7 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent {
   searchQuery = '';
-  isLoggedIn = false;
-  currentUser: string | null = null;
-  isAdmin = false;
-
-  constructor(private router: Router, private authService: AuthService) {
-    this.authService.getLoggedInStatus().subscribe(status => this.isLoggedIn = status);
-    this.authService.getCurrentUser().subscribe(user => this.currentUser = user);
-    this.authService.getLoggedInStatus().subscribe(status => {
-      this.isAdmin = status && this.authService.isAdmin();
-    });
-  }
+  constructor(private router: Router, public authService: AuthService) {}
 
   search() {
     if (this.searchQuery) {
