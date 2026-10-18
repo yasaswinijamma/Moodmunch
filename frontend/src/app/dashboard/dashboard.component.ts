@@ -8,11 +8,13 @@ import { environment } from '../../environments/environment';
   template: `
     <div class="dashboard-container">
       <h2>Admin Dashboard</h2>
-      <div *ngIf="stats">
-        <p>Total Users: {{ stats.userCount }}</p>
-        <p>Top Mood: {{ stats.topMood }}</p>
-        <p>Top Location: {{ stats.topLocation }}</p>
-      </div>
+      @if (stats) {
+        <div>
+          <p>Total Users: {{ stats.userCount }}</p>
+          <p>Top Mood: {{ stats.topMood }}</p>
+          <p>Top Location: {{ stats.topLocation }}</p>
+        </div>
+      }
     </div>
   `,
   styles: [`
