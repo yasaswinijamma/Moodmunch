@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
       <p>Email: <a href="mailto:support&#64;moodmunch.com">support&#64;moodmunch.com</a></p>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     .contact-container { max-width: 800px; margin: 20px auto; padding: 20px; text-align: center; }
     h2 { color: #FF3008; }

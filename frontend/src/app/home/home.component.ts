@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -185,6 +185,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
     }
 
   `],
+  changeDetection: ChangeDetectionStrategy.Eager,
   animations: [
     trigger('fadeIn', [
       transition(':enter', [

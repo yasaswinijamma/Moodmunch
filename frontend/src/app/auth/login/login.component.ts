@@ -1,5 +1,5 @@
 // frontend/src/app/auth/login/login.component.ts
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -25,6 +25,7 @@ import { AuthService } from '../auth.service';
       <a routerLink="/register" class="register-link">Need an account? Register</a>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     .login-container {
       max-width: 400px;

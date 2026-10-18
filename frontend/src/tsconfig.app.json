@@ -11,5 +11,8 @@
   "include": [
     "**/*.d.ts",
     "**/*.ts"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "strictTemplates": false
+  }
 }

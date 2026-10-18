@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 import { environment } from '../../environments/environment';
@@ -17,6 +17,7 @@ import { environment } from '../../environments/environment';
       }
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     .dashboard-container { padding: 20px; text-align: center; }
     h2 { color: #FF3008; }

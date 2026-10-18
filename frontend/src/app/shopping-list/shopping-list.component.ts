@@ -1,5 +1,5 @@
 // frontend/src/app/shopping-list/shopping-list.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
@@ -46,6 +46,7 @@ interface ShoppingListItem {
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     .shopping-list-container {
       max-width: 800px;

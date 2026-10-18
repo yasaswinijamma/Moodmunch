@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -209,6 +209,7 @@ import { environment } from '../../environments/environment';
       .subtitle { font-size: 1em; }
     }
   `],
+  changeDetection: ChangeDetectionStrategy.Eager,
   animations: [
     trigger('gridAnimation', [
       transition('* => *', [

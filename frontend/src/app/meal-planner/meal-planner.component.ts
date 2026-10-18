@@ -1,5 +1,5 @@
 // frontend/src/app/meal-planner/meal-planner.component.ts
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -28,6 +28,7 @@ interface MealPlan {
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './meal-planner.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./meal-planner.component.css']
 })
 export class MealPlannerComponent {

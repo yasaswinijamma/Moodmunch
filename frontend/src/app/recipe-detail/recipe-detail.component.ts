@@ -1,5 +1,5 @@
 // src/app/recipe-detail/recipe-detail.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -36,7 +36,7 @@ import { throwError } from 'rxjs';
           </div>
         </div>
         <div class="recipe-sidebar">
-          <img [src]="recipe?.image" [alt]="recipe?.title" class="recipe-image" *ngIf="recipe?.image">
+          <img [src]="$safeNavigationMigration($safeNavigationMigration(recipe?.image))" [alt]="$safeNavigationMigration($safeNavigationMigration(recipe?.title))" class="recipe-image" *ngIf="recipe?.image">
           <div class="recipe-info">
             <p><strong>Calories:</strong> {{ getCalories() | number:'1.0-0' }} kcal</p>
             <p><strong>Preparation Time:</strong> {{ recipe?.readyInMinutes }} minutes</p>
@@ -57,6 +57,7 @@ import { throwError } from 'rxjs';
       <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     .recipe-detail-container {
       max-width: 1200px;

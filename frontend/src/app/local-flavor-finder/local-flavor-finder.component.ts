@@ -1,5 +1,5 @@
 // frontend/src/app/local-flavor-finder/local-flavor-finder.component.ts
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -176,6 +176,7 @@ interface LocalFood {
       margin: 5px 0;
     }
   `],
+  changeDetection: ChangeDetectionStrategy.Eager,
   animations: [
     trigger('fadeIn', [
       transition(':enter', [

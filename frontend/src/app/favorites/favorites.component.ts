@@ -1,5 +1,5 @@
 // frontend/src/app/favorites/favorites.component.ts
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 import { environment } from '../../environments/environment';
@@ -77,6 +77,7 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
       font-size: 18px;
     }
   `],
+  changeDetection: ChangeDetectionStrategy.Eager,
   animations: [
     trigger('listAnimation', [
       transition('* => *', [

@@ -1,5 +1,5 @@
 // frontend/src/app/auth/register/register.component.ts
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -127,6 +127,7 @@ import { environment } from '../../../environments/environment';
       </form>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     .login-container {
       max-width: 400px;

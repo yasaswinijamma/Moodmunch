@@ -1,5 +1,5 @@
 // src/app/recipe-list/recipe-list.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -268,6 +268,7 @@ import { animate, style, transition, trigger, query, stagger } from '@angular/an
       background-color: #e02b00;
     }
   `],
+  changeDetection: ChangeDetectionStrategy.Eager,
   animations: [
     trigger('listAnimation', [
       transition('* => *', [
